@@ -1,0 +1,381 @@
+﻿@page
+@model AgriWebSite_v2.Pages.DiplomatikiModel
+@{
+    ViewData["Title"] = "Diplomatiki";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+<script src=" https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.js"></script>
+    <style>
+        .chart_container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            padding: 1px;
+            border-radius: 4px;
+        }
+
+        #chart_container2 {
+            height: 400px;
+            width: 90%;
+        }
+    </style>
+<meta http-equiv="refresh" content="15">
+<h2>Διπλωματικη Σοφοκλή Παντικίδη</h2>
+
+
+<h3>Data From Field</h3>
+<div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Θερμοκρασία</th>
+                <th>Υγρασία</th>
+                <th>Ατμ. Πίεση</th>
+                <th>Υγρασία Εδάφους</th>
+                <th>Φως</th>
+                <th>Ημερομηνία</th>
+                <th>Ποτίζει</th>
+            </tr>
+        </thead>
+        <tr>
+            <td>@Model.Temperature_webpage</td>
+            <td>@Model.Humidity</td>
+            <td>@Model.Pressure</td>
+            <td>@Model.SoilMoisture</td>
+            <td>@Model.Lum</td>
+            <td>@Model.DateString</td>
+            <td>@Model.IsRelayOnNotificationString</td>
+        </tr>
+
+    </table>
+</div>
+<div class="chart_container">
+    <canvas id="ChartTemperature"></canvas>
+</div>
+<div class="chart_container">
+    <canvas id="ChartHumidity"></canvas>
+</div>
+
+<div class="chart_container">
+    <canvas id="ChartPressure"></canvas>
+</div>
+
+<div class="chart_container">
+    <canvas id="ChartSoilMoisture"></canvas>
+</div>
+
+<div class="chart_container">
+    <canvas id="ChartLum"></canvas>
+</div>
+
+<script type="text/javascript">
+    @*Line*@
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+    var myJSONstringT = '@Model.ChartViewTemperature';
+   var wT = myJSONstringT.replace(/&quot;/g, '"');
+    var mydataT = JSON.parse(wT);
+
+    var clabelsT = mydataT.jsonarray.map(function (e) {
+        return e.DateTime;
+    });
+
+    var cdataT = mydataT.jsonarray.map(function (e) {
+        return e.Value;
+    });
+
+    //In order to use annotations
+    //Temperature
+        var ctx = document.getElementById("ChartTemperature").getContext('2d');
+        var myChartBar = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: clabelsT,
+                datasets: [{
+                    //fill: false,
+                    label: 'Temperature',
+                    borderWidth: 1,
+                    data: cdataT,
+                    backgroundColor:"#F2F2F2",
+                    borderColor: getRandomColor()
+
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+               
+                scales: {
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Celsius",
+                            fontColor: "#9d9d9d"
+                        },
+                        // type: 'logarithmic',
+                        ticks: {
+                            //  min: 10,
+                            beginAtZero: true
+                        }
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            display: false,
+                            color: "black"
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: "DateTime",
+                            fontColor: "#9d9d9d"
+                        }
+                    }],
+                }
+            }
+        });
+
+    //Humidity
+    var myJSONstringH = '@Model.ChartViewHumidity';
+    var wH = myJSONstringH.replace(/&quot;/g, '"');
+    var mydataH = JSON.parse(wH);
+
+    var clabelsH = mydataH.jsonarray.map(function (e) {
+        return e.DateTime;
+    });
+
+    var cdataH = mydataH.jsonarray.map(function (e) {
+        return e.Value;
+    });
+    var ctx = document.getElementById("ChartHumidity").getContext('2d');
+    var myChartBar = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: clabelsH,
+            datasets: [{
+                //fill: false,
+                label: 'Humidity',
+                borderWidth: 1,
+                data: cdataH,
+                backgroundColor:getRandomColor(),
+                borderColor: getRandomColor()
+
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+               
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "%",
+                        fontColor: "#9d9d9d"
+                    },
+                    // type: 'logarithmic',
+                    ticks: {
+                        //  min: 10,
+                        beginAtZero: true
+                    }
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                        color: "black"
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: "DateTime",
+                        fontColor: "#9d9d9d"
+                    }
+                }],
+            }
+        }
+    });
+
+    //Pressure
+    var myJSONstringH = '@Model.ChartViewPressure';
+    var wH = myJSONstringH.replace(/&quot;/g, '"');
+    var mydataH = JSON.parse(wH);
+
+    var clabelsH = mydataH.jsonarray.map(function (e) {
+        return e.DateTime;
+    });
+
+    var cdataH = mydataH.jsonarray.map(function (e) {
+        return e.Value;
+    });
+    var ctx = document.getElementById("ChartPressure").getContext('2d');
+    var myChartBar = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: clabelsH,
+            datasets: [{
+                //fill: false,
+                label: 'Pressure',
+                borderWidth: 1,
+                data: cdataH,
+                backgroundColor:getRandomColor(),
+                borderColor: getRandomColor()
+
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+               
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "%",
+                        fontColor: "#9d9d9d"
+                    },
+                    // type: 'logarithmic',
+                    ticks: {
+                        //  min: 10,
+                        beginAtZero: true
+                    }
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                        color: "black"
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: "DateTime",
+                        fontColor: "#9d9d9d"
+                    }
+                }],
+            }
+        }
+    });
+
+    //SoilMoisture
+    var myJSONstringH = '@Model.ChartViewSoilMoisture';
+    var wH = myJSONstringH.replace(/&quot;/g, '"');
+    var mydataH = JSON.parse(wH);
+
+    var clabelsH = mydataH.jsonarray.map(function (e) {
+        return e.DateTime;
+    });
+
+    var cdataH = mydataH.jsonarray.map(function (e) {
+        return e.Value;
+    });
+    var ctx = document.getElementById("ChartSoilMoisture").getContext('2d');
+    var myChartBar = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: clabelsH,
+            datasets: [{
+                //fill: false,
+                label: 'SoilMoisture',
+                borderWidth: 1,
+                data: cdataH,
+                backgroundColor:getRandomColor(),
+                borderColor: getRandomColor()
+
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+               
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "%",
+                        fontColor: "#9d9d9d"
+                    },
+                    // type: 'logarithmic',
+                    ticks: {
+                        //  min: 10,
+                        beginAtZero: true
+                    }
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                        color: "black"
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: "DateTime",
+                        fontColor: "#9d9d9d"
+                    }
+                }],
+            }
+        }
+    });
+
+    //Lum
+    var myJSONstringH = '@Model.ChartViewLum';
+    var wH = myJSONstringH.replace(/&quot;/g, '"');
+    var mydataH = JSON.parse(wH);
+
+    var clabelsH = mydataH.jsonarray.map(function (e) {
+        return e.DateTime;
+    });
+
+    var cdataH = mydataH.jsonarray.map(function (e) {
+        return e.Value;
+    });
+    var ctx = document.getElementById("ChartLum").getContext('2d');
+    var myChartBar = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: clabelsH,
+            datasets: [{
+                //fill: false,
+                label: 'Lum',
+                borderWidth: 1,
+                data: cdataH,
+                backgroundColor:getRandomColor(),
+                borderColor: getRandomColor()
+
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+               
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "%",
+                        fontColor: "#9d9d9d"
+                    },
+                    // type: 'logarithmic',
+                    ticks: {
+                        //  min: 10,
+                        beginAtZero: true
+                    }
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                        color: "black"
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: "DateTime",
+                        fontColor: "#9d9d9d"
+                    }
+                }],
+            }
+        }
+    });
+
+ 
+</script>
