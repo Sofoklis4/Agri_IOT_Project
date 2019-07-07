@@ -5,25 +5,23 @@
 }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
 <script src=" https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.js"></script>
-    <style>
-        .chart_container {
-            position: relative;
-            height: 400px;
-            width: 100%;
-            padding: 1px;
-            border-radius: 4px;
-        }
+<style>
 
-        #chart_container2 {
-            height: 400px;
-            width: 90%;
-        }
-    </style>
+    .chart_container {
+        position: relative;
+        height: 400px;
+        width: 100%;
+        padding: 1px;
+        border-radius: 4px;
+    }
+
+    #chart_container2 {
+        height: 400px;
+        width: 90%;
+    }
+</style>
 <meta http-equiv="refresh" content="15">
-<h2>Διπλωματικη Σοφοκλή Παντικίδη</h2>
-
-
-<h3>Data From Field</h3>
+<h3>A. Μετρήσεις Πραγματικού Χρόνου</h3>
 <div>
     <table class="table table-bordered">
         <thead>
@@ -33,37 +31,42 @@
                 <th>Ατμ. Πίεση</th>
                 <th>Υγρασία Εδάφους</th>
                 <th>Φως</th>
-                <th>Ημερομηνία</th>
+                @*<th>Ημερομηνία</th>*@
                 <th>Ποτίζει</th>
             </tr>
         </thead>
         <tr>
-            <td>@Model.Temperature_webpage</td>
-            <td>@Model.Humidity</td>
-            <td>@Model.Pressure</td>
-            <td>@Model.SoilMoisture</td>
-            <td>@Model.Lum</td>
-            <td>@Model.DateString</td>
+            <td>@Model.Temperature_webpage °C </td>
+            <td>@Model.Humidity %</td>
+            <td>@Model.Pressure hPa</td>
+            <td>@Model.SoilMoisture %</td>
+            <td>@Model.Lum lx</td>
+            @*<td>@Model.DateString</td>*@
             <td>@Model.IsRelayOnNotificationString</td>
         </tr>
 
     </table>
 </div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>Β. Γραφήματα μετρήσεων</h3>
+<p>&nbsp;</p>
 <div class="chart_container">
     <canvas id="ChartTemperature"></canvas>
 </div>
+<p>&nbsp;</p>
 <div class="chart_container">
     <canvas id="ChartHumidity"></canvas>
 </div>
-
+<p>&nbsp;</p>
 <div class="chart_container">
     <canvas id="ChartPressure"></canvas>
 </div>
-
+<p>&nbsp;</p>
 <div class="chart_container">
     <canvas id="ChartSoilMoisture"></canvas>
 </div>
-
+<p>&nbsp;</p>
 <div class="chart_container">
     <canvas id="ChartLum"></canvas>
 </div>
@@ -101,24 +104,24 @@
                 labels: clabelsT,
                 datasets: [{
                     //fill: false,
-                    label: 'Temperature',
-                    borderWidth: 1,
+                    label: 'ΘΕΡΜΟΚΡΑΣΙΑ',
+                    borderWidth: 2,
                     data: cdataT,
-                    backgroundColor:"#F2F2F2",
-                    borderColor: getRandomColor()
+                    backgroundColor:"#eb5e55",
+                    borderColor: "#000000"
 
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-               
+
                 scales: {
                     yAxes: [{
                         scaleLabel: {
                             display: true,
                             labelString: "Celsius",
-                            fontColor: "#9d9d9d"
+                            fontColor: "#000000"
                         },
                         // type: 'logarithmic',
                         ticks: {
@@ -133,8 +136,8 @@
                         },
                         scaleLabel: {
                             display: true,
-                            labelString: "DateTime",
-                            fontColor: "#9d9d9d"
+                            labelString: "Ημερομηνία & Ώρα",
+                            fontColor: "#000000"
                         }
                     }],
                 }
@@ -160,24 +163,24 @@
             labels: clabelsH,
             datasets: [{
                 //fill: false,
-                label: 'Humidity',
-                borderWidth: 1,
+                label: 'ΥΓΡΑΣΙΑ ΑΕΡΑ',
+                borderWidth: 2,
                 data: cdataH,
-                backgroundColor:getRandomColor(),
-                borderColor: getRandomColor()
+                backgroundColor:"#27c96d",
+                borderColor: "#000000"
 
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-               
+
             scales: {
                 yAxes: [{
                     scaleLabel: {
                         display: true,
                         labelString: "%",
-                        fontColor: "#9d9d9d"
+                        fontColor: "#000000"
                     },
                     // type: 'logarithmic',
                     ticks: {
@@ -192,8 +195,8 @@
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: "DateTime",
-                        fontColor: "#9d9d9d"
+                        labelString: "Ημερομηνία & Ώρα",
+                        fontColor: "#000000"
                     }
                 }],
             }
@@ -219,24 +222,24 @@
             labels: clabelsH,
             datasets: [{
                 //fill: false,
-                label: 'Pressure',
-                borderWidth: 1,
+                label: 'ΑΤΜ. ΠΙΕΣΗ',
+                borderWidth: 2,
                 data: cdataH,
-                backgroundColor:getRandomColor(),
-                borderColor: getRandomColor()
+                backgroundColor:"#206de5",
+                borderColor: "#000000",
 
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-               
+
             scales: {
                 yAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: "%",
-                        fontColor: "#9d9d9d"
+                        labelString: "hPa",
+                        fontColor: "#000000"
                     },
                     // type: 'logarithmic',
                     ticks: {
@@ -251,8 +254,8 @@
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: "DateTime",
-                        fontColor: "#9d9d9d"
+                        labelString: "Ημερομηνία & Ώρα",
+                        fontColor: "#000000"
                     }
                 }],
             }
@@ -278,24 +281,24 @@
             labels: clabelsH,
             datasets: [{
                 //fill: false,
-                label: 'SoilMoisture',
-                borderWidth: 1,
+                label: 'ΥΓΡΑΣΙΑ ΕΔΑΦΟΥΣ',
+                borderWidth: 2,
                 data: cdataH,
-                backgroundColor:getRandomColor(),
-                borderColor: getRandomColor()
+                backgroundColor:"#9e7350",
+                borderColor: "#000000"
 
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-               
+
             scales: {
                 yAxes: [{
                     scaleLabel: {
                         display: true,
                         labelString: "%",
-                        fontColor: "#9d9d9d"
+                        fontColor: "#000000"
                     },
                     // type: 'logarithmic',
                     ticks: {
@@ -310,8 +313,8 @@
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: "DateTime",
-                        fontColor: "#9d9d9d"
+                        labelString: "Ημερομηνία & Ώρα",
+                        fontColor: "#000000"
                     }
                 }],
             }
@@ -337,24 +340,24 @@
             labels: clabelsH,
             datasets: [{
                 //fill: false,
-                label: 'Lum',
-                borderWidth: 1,
+                label: 'ΕΠΙΕΠΔΟ ΦΩΤΟΣ',
+                borderWidth: 2,
                 data: cdataH,
-                backgroundColor:getRandomColor(),
-                borderColor: getRandomColor()
+                backgroundColor:"#ffed43",
+                borderColor: "#000000"
 
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-               
+
             scales: {
                 yAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: "%",
-                        fontColor: "#9d9d9d"
+                        labelString: "lx",
+                        fontColor: "#000000"
                     },
                     // type: 'logarithmic',
                     ticks: {
@@ -369,13 +372,13 @@
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: "DateTime",
-                        fontColor: "#9d9d9d"
+                        labelString: "Ημερομηνία & Ώρα",
+                        fontColor: "#000000"
                     }
                 }],
             }
         }
     });
 
- 
+
 </script>
