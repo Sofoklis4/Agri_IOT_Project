@@ -20,7 +20,11 @@ namespace AgriApi_v2.Drivers.BME280
 
         public bool IsActive { get; set; }
 
-        public bool IsWatered { get; set; }
+        public bool IsR1On { get; set; }
+
+        public bool IsR2On { get; set; }
+
+        public bool IsR3On { get; set; }
 
         public bool IsRelayOnNotification { get; set; }
 

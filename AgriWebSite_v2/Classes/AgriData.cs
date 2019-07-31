@@ -16,7 +16,12 @@ namespace AgriWebSite_v2.Classes
 
         public float Lum { get; set; }
 
-        public bool IsWatered { get; set; }
+        public bool IsR1On { get; set; }
+
+        public bool IsR2On { get; set; }
+
+        public bool IsR3On { get; set; }
+
 
         public bool IsRelayOnNotification { get; set; }
 

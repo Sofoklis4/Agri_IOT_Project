@@ -20,7 +20,7 @@
         width: 90%;
     }
 </style>
-<meta http-equiv="refresh" content="15">
+<meta http-equiv="refresh" content="30">
 <h3>A. Μετρήσεις Πραγματικού Χρόνου</h3>
 <div>
     <table class="table table-bordered">
@@ -33,6 +33,9 @@
                 <th>Φως</th>
                 @*<th>Ημερομηνία</th>*@
                 <th>Ποτίζει</th>
+                <th>Relay 1</th>
+                <th>Relay 2</th>
+                <th>Relay 3</th>
             </tr>
         </thead>
         <tr>
@@ -43,6 +46,9 @@
             <td>@Model.Lum lx</td>
             @*<td>@Model.DateString</td>*@
             <td>@Model.IsRelayOnNotificationString</td>
+            <td>@Model.IsR1OnString</td>
+            <td>@Model.IsR2OnString</td>
+            <td>@Model.IsR3OnString</td>
         </tr>
 
     </table>

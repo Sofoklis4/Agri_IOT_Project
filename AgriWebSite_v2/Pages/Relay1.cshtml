@@ -1,51 +1,19 @@
 ﻿@page
-@model AgriWebSite_v2.Pages.LimitsModel
+@model AgriWebSite_v2.Pages.Relay1Model
 @{
-    ViewData["Title"] = "Limits";
 }
 
-<h1>Παραμετροποίηση Συστήματος</h1>
-@*<form method="post">
+@*<h4>@TempData["FormResult"]</h4>*@
 
-    <p>&nbsp;</p>
-
-    <div>
-        <h3>Υγρασία Εδάφους</h3>
-        <p>Όταν η υγρασία γίνει μικρότερη από το Κάτω Όριο θα ξεκινήσει το πότισμα και θα σταματήσει όταν περ΄σει το Άνω Όριο</p>
-    </div>
-
-    <div class="form-group row">
-        <label class="col-sm-3" for="SoilMoistureDownLimit">Κάτω Όριο:</label>
-        <input class="form-control col-sm-2" type="text" asp-for="SoilMoistureDownLimit">
-    </div>
-
-    <div class="form-group row">
-        <label class="col-sm-3" for="SoilMoistureUpLimit">Άνω Όριο:</label>
-        <input class="form-control col-sm-2" type="text" asp-for="SoilMoistureUpLimit">
-    </div>
-
-    <p>&nbsp;</p>
-
-    <div>
-        <h3>Φως</h3>
-        <p>Το πότισμα μπορεί να ξεκινήσει μόνο όταν το επίπεδο φωτός γίνει μικρότερο από παρακάτω όριο</p>
-    </div>
-
-    <div class="form-group row">
-        <label class="col-sm-3" for="">>Κάτω Όριο:</label>
-        <input class="form-control col-sm-2" type="text" asp-for="LumDownLimit">
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-3" for="SoilMoistureUpLimit">Άνω Όριο:</label>
-        <input class="form-control col-sm-2" type="text" asp-for="LumUpLimit">
-    </div>
-
-    <p>&nbsp;</p>
-
-    <div class="form-group  col-sm-6">
-        <input class="btn btn-info btn-sm col-sm-3" type="submit" value="Υποβολή">
-    </div>
-</form>*@
+@if(@Model.StatusMessageShow==1)
+{
+<div class="alert alert-info alert-dismissible fade show">
+    @Model.TempMessage
+    <button type="button"  data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">Close</span>
+    </button>
+</div>
+}
 
 <form method="post">
     <div>

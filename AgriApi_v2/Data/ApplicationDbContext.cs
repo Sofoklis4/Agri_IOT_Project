@@ -16,5 +16,8 @@ namespace AgriApi_v2.Data
 
         public DbSet<Measurements> Measurements { get; set; }
         public DbSet<MeasurementsValues> MeasurementsValues { get; set; }
+
+        public DbSet<Relay> Relays { get; set; }
+        public DbSet<RulesForRelay> RulesForRelays { get; set; }
     }
 }

@@ -29,6 +29,14 @@ namespace AgriWebSite_v2.Pages
         public  bool IsWatered { get; set; }
 
         public bool IsRelayOnNotification { get; set; }
+        public bool IsR1On { get; set; }
+        public string IsR1OnString { get; set; }
+
+        public bool IsR2On { get; set; }
+        public string IsR2OnString { get; set; }
+
+        public bool IsR3On { get; set; }
+        public string IsR3OnString { get; set; }
         public string IsRelayOnNotificationString { get; set; }
 
 
@@ -60,7 +68,10 @@ namespace AgriWebSite_v2.Pages
             SoilMoisture = jsonToObj.SoilMoisture.ToString("0.0");
             Lum = jsonToObj.Lum.ToString("0");
             DateString = jsonToObj.Date.ToString("dd MMM yyyy HH:mm");
-            IsWatered = jsonToObj.IsWatered;
+            // IsWatered = jsonToObj.IsWatered;
+            IsR1On = jsonToObj.IsR1On;
+            IsR2On = jsonToObj.IsR2On;
+            IsR3On = jsonToObj.IsR3On;
             IsRelayOnNotification = jsonToObj.IsRelayOnNotification;
 
             if(IsRelayOnNotification==true)
@@ -73,17 +84,45 @@ namespace AgriWebSite_v2.Pages
                 IsRelayOnNotificationString = "Όχι";
             }
 
+            if (IsR1On == true)
+            {
+                IsR1OnString = "Ναι";
+            }
+
+            else
+            {
+                IsR1OnString = "Όχι";
+            }
+            if (IsR2On == true)
+            {
+                IsR2OnString = "Ναι";
+            }
+
+            else
+            {
+                IsR2OnString = "Όχι";
+            }
+            if (IsR3On == true)
+            {
+                IsR3OnString = "Ναι";
+            }
+
+            else
+            {
+                IsR3OnString = "Όχι";
+            }
+
             //Temperature
             var fromDbTemperature = await _context.MeasurementsValues
-                //  .Include(s => s.Measurement.Component.Device.Asset.Sector.AssignedUsersSectors)
-                //  .Include(mrv => mrv.Measurement)
-                //.ThenInclude(m => m.Component)
-                //.ThenInclude(c => c.Device)
-                // .Include(d => d.Measurement.Component.Device.Asset.Sector)
-                //.ThenInclude(se => se.Sector)
-                //.ThenInclude(s => s.Site)
-                //.ThenInclude(s => s.Company)
-               
+                 //  .Include(s => s.Measurement.Component.Device.Asset.Sector.AssignedUsersSectors)
+                 //  .Include(mrv => mrv.Measurement)
+                 //.ThenInclude(m => m.Component)
+                 //.ThenInclude(c => c.Device)
+                 // .Include(d => d.Measurement.Component.Device.Asset.Sector)
+                 //.ThenInclude(se => se.Sector)
+                 //.ThenInclude(s => s.Site)
+                 //.ThenInclude(s => s.Company)
+                 .Where(s => s.Measurement.Relay.RelayName == "Relay1")
                 .Where(s => s.Measurement.Name == "Temperature")
                 //.Where(s => s.DateTime > DateTime.Today.AddDays(-days))
                 .Select(s => new MeasurementsValues()
@@ -110,6 +149,7 @@ namespace AgriWebSite_v2.Pages
                 //.ThenInclude(s => s.Company)
 
                 .Where(s => s.Measurement.Name == "Humidity")
+                 .Where(s => s.Measurement.Relay.RelayName == "Relay1")
                 //.Where(s => s.DateTime > DateTime.Today.AddDays(-days))
                 .Select(s => new MeasurementsValues()
                 {
@@ -135,6 +175,7 @@ namespace AgriWebSite_v2.Pages
                 //.ThenInclude(s => s.Company)
 
                 .Where(s => s.Measurement.Name == "Pressure")
+                 .Where(s => s.Measurement.Relay.RelayName == "Relay1")
                 //.Where(s => s.DateTime > DateTime.Today.AddDays(-days))
                 .Select(s => new MeasurementsValues()
                 {
@@ -160,6 +201,7 @@ namespace AgriWebSite_v2.Pages
                 //.ThenInclude(s => s.Company)
 
                 .Where(s => s.Measurement.Name == "SoilMoisture")
+                 .Where(s => s.Measurement.Relay.RelayName == "Relay1")
                 //.Where(s => s.DateTime > DateTime.Today.AddDays(-days))
                 .Select(s => new MeasurementsValues()
                 {
@@ -185,6 +227,7 @@ namespace AgriWebSite_v2.Pages
                 //.ThenInclude(s => s.Company)
 
                 .Where(s => s.Measurement.Name == "Lum")
+                 .Where(s => s.Measurement.Relay.RelayName == "Relay1")
                 //.Where(s => s.DateTime > DateTime.Today.AddDays(-days))
                 .Select(s => new MeasurementsValues()
                 {

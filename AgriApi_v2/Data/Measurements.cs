@@ -14,5 +14,7 @@ namespace AgriApi_v2.Data
         public float UpLevel { get; set; }
 
         public float DownLevel { get; set; }
+
+        public Relay Relay { get; set; }
     }
 }

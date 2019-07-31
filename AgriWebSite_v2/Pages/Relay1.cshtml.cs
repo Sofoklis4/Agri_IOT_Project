@@ -1,24 +1,25 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AgriWebSite_v2.Data;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AgriWebSite_v2.Pages
 {
-   // [Authorize]
-    public class LimitsModel : PageModel
+    public class Relay1Model : PageModel
     {
         private readonly ApplicationDbContext _context;
-        public LimitsModel(ApplicationDbContext context)
+        public Relay1Model(ApplicationDbContext context)
         {
             _context = context;
-          
-        }
 
+        }
+        [BindProperty]
+        public string TempMessage { get; set; }
+
+        public int StatusMessageShow { get; set; }
         [BindProperty]
         public float SoilMoistureUpLimit { get; set; }
         [BindProperty]
@@ -40,18 +41,34 @@ namespace AgriWebSite_v2.Pages
         [BindProperty]
         public bool TemperatureIsChecked { get; set; }
 
+        [BindProperty]
+        public float PressureUpLimit { get; set; }
+        [BindProperty]
+        public float PressureDownLimit { get; set; }
+        [BindProperty]
+        public bool PressureIsChecked { get; set; }
+
 
         public void OnGet()
         {
-            var entity = _context.Measurements.FirstOrDefault(item => item.Name == "SoilMoisture");
+            StatusMessageShow = 0;
+            var getRelay = _context.Relays
+ .Where(s => s.RelayName == "Relay1").FirstOrDefault();
+            var entity = _context.Measurements
+                 .Where(s => s.Relay == getRelay)
+                .FirstOrDefault(item => item.Name == "SoilMoisture");
             SoilMoistureDownLimit = entity.DownLevel;
             SoilMoistureUpLimit = entity.UpLevel;
 
-            var entity2 = _context.Measurements.FirstOrDefault(item => item.Name == "Lum");
+            var entity2 = _context.Measurements
+                 .Where(s => s.Relay == getRelay)
+                .FirstOrDefault(item => item.Name == "Lum");
             LumDownLimit = entity2.DownLevel;
             LumUpLimit = entity2.UpLevel;
 
-            var entity3 = _context.Measurements.FirstOrDefault(item => item.Name == "Temperature");
+            var entity3 = _context.Measurements
+                 .Where(s => s.Relay == getRelay)
+                .FirstOrDefault(item => item.Name == "Temperature");
             TemperatureDownLimit = entity3.DownLevel;
             TemperatureUpLimit = entity3.UpLevel;
 
@@ -59,7 +76,9 @@ namespace AgriWebSite_v2.Pages
 
         public void OnPost()
         {
-
+            var getRelay = _context.Relays
+    .Where(s => s.RelayName == "Relay1").FirstOrDefault();
+            StatusMessageShow = 1;
             if (SoilMoistureIsChecked == true || LumIsChecked == true || TemperatureIsChecked == true)
             {
                 var entity3 = _context.RulesForRelays.
@@ -74,12 +93,16 @@ namespace AgriWebSite_v2.Pages
                         _context.SaveChanges();
                     }
                 }
+
+   
             }
 
 
             if (SoilMoistureIsChecked)
             {
-                var entity = _context.Measurements.FirstOrDefault(item => item.Name == "SoilMoisture");
+                var entity = _context.Measurements
+                    .Where(s => s.Relay==getRelay)
+                   .FirstOrDefault(item => item.Name == "SoilMoisture");
                 entity.DownLevel = SoilMoistureDownLimit;
                 entity.UpLevel = SoilMoistureUpLimit;
                 _context.Measurements.Update(entity);
@@ -87,10 +110,12 @@ namespace AgriWebSite_v2.Pages
                 SoilMoistureDownLimit = entity.DownLevel;
                 SoilMoistureUpLimit = entity.UpLevel;
 
-            
-                
-                var getSoilMoisture = _context.Measurements.Where(s => s.Name == "SoilMoisture").FirstOrDefault();
-                var getRelay = _context.Relays.Where(s => s.RelayName == "Relay1").FirstOrDefault();
+
+
+                var getSoilMoisture = _context.Measurements
+                    .Where(s =>s.Relay==getRelay)
+                    .Where(s => s.Name == "SoilMoisture").FirstOrDefault();
+
                 var rel = new RulesForRelay
                 {
                     Measurement = getSoilMoisture,
@@ -103,7 +128,9 @@ namespace AgriWebSite_v2.Pages
 
             if (LumIsChecked)
             {
-                var entityLum1 = _context.Measurements.FirstOrDefault(item => item.Name == "Lum");
+                var entityLum1 = _context.Measurements
+                     .Where(s => s.Relay == getRelay)
+                    .FirstOrDefault(item => item.Name == "Lum");
                 entityLum1.DownLevel = LumDownLimit;
                 entityLum1.UpLevel = LumUpLimit;
                 _context.Measurements.Update(entityLum1);
@@ -112,9 +139,9 @@ namespace AgriWebSite_v2.Pages
                 LumDownLimit = entityLum1.DownLevel;
                 LumUpLimit = entityLum1.UpLevel;
 
-             
+
                 var getMeasurement = _context.Measurements.Where(s => s.Name == "Lum").FirstOrDefault();
-                var getRelay = _context.Relays.Where(s => s.RelayName == "Relay1").FirstOrDefault();
+             
                 var rel = new RulesForRelay
                 {
                     Measurement = getMeasurement,
@@ -127,8 +154,10 @@ namespace AgriWebSite_v2.Pages
 
             if (TemperatureIsChecked)
             {
-                var entityTemperature1 = _context.Measurements.FirstOrDefault(item => item.Name == "Temperature");
-                entityTemperature1.DownLevel =TemperatureDownLimit;
+                var entityTemperature1 = _context.Measurements
+                     .Where(s => s.Relay == getRelay)
+                    .FirstOrDefault(item => item.Name == "Temperature");
+                entityTemperature1.DownLevel = TemperatureDownLimit;
                 entityTemperature1.UpLevel = TemperatureUpLimit;
                 _context.Measurements.Update(entityTemperature1);
                 _context.SaveChanges();
@@ -136,10 +165,10 @@ namespace AgriWebSite_v2.Pages
                 TemperatureDownLimit = entityTemperature1.DownLevel;
                 TemperatureUpLimit = entityTemperature1.UpLevel;
 
-              
-                
+
+
                 var getMeasurement = _context.Measurements.Where(s => s.Name == "Temperature").FirstOrDefault();
-                var getRelay = _context.Relays.Where(s => s.RelayName == "Relay1").FirstOrDefault();
+               
                 var rel = new RulesForRelay
                 {
                     Measurement = getMeasurement,
@@ -149,6 +178,8 @@ namespace AgriWebSite_v2.Pages
                 _context.SaveChanges();
 
             }
+
+            TempMessage = "The Database has been updated";
         }
     }
 }

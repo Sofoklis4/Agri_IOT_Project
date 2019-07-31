@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 
 namespace AgriApi_v2.Data
 {
-    public static class StaticFunc
+    public class Relay
     {
+        public int Id { get; set; }
+
+        public string RelayName { get; set; }
     }
 }

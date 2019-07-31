@@ -15,7 +15,19 @@ namespace AgriApi_v2
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
-            StaticFunc._IsWatered = true;
+            StaticFunc._IsWateredSoilMoistureR1 = true;
+            StaticFunc._IsWateredLumR1 = true;
+            StaticFunc._IsWateredTemperatureR1 = true;
+
+            StaticFunc._IsWateredSoilMoistureR2 = true;
+            StaticFunc._IsWateredLumR2 = true;
+            StaticFunc._IsWateredTemperatureR2 = true;
+
+            StaticFunc._IsWateredSoilMoistureR3 = true;
+            StaticFunc._IsWateredLumR3 = true;
+            StaticFunc._IsWateredTemperatureR3 = true;
+
+
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

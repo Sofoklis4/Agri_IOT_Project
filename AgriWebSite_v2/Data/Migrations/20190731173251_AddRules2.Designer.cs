@@ -4,14 +4,16 @@ using AgriWebSite_v2.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AgriWebSite_v2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190731173251_AddRules2")]
+    partial class AddRules2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,13 +31,9 @@ namespace AgriWebSite_v2.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("RelayId");
-
                     b.Property<float>("UpLevel");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RelayId");
 
                     b.ToTable("Measurements");
                 });
@@ -254,13 +252,6 @@ namespace AgriWebSite_v2.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("AgriWebSite_v2.Data.Measurements", b =>
-                {
-                    b.HasOne("AgriWebSite_v2.Data.Relay", "Relay")
-                        .WithMany()
-                        .HasForeignKey("RelayId");
                 });
 
             modelBuilder.Entity("AgriWebSite_v2.Data.MeasurementsValues", b =>
