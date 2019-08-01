@@ -197,9 +197,19 @@ namespace AgriApi_v2.Controllers
                           .Where(s => s.Relay == getRelayR1)
                         .Where(s => s.Name == "Temperature").FirstOrDefault();
 
+                    var getPressureR1 = _context.Measurements
+                 .Where(s => s.Relay == getRelayR1)
+               .Where(s => s.Name == "Pressure").FirstOrDefault();
+
+                    var getHumidityR1 = _context.Measurements
+                 .Where(s => s.Relay == getRelayR1)
+               .Where(s => s.Name == "Humidity").FirstOrDefault();
+
                     var findInentity1R1SoilMoisture = entity1R1.Any(s => s.Measurement == getSoilMoistureR1);
                     var findentity1R1Lum = entity1R1.Any(s => s.Measurement == getLumR1);
                     var findentity1R1Temperature = entity1R1.Any(s => s.Measurement == getTemperatureR1);
+                    var findentity1R1Pressure = entity1R1.Any(s => s.Measurement == getPressureR1);
+                    var findentity1R1Humidity = entity1R1.Any(s => s.Measurement == getHumidityR1);
 
                     if (findInentity1R1SoilMoisture)
                     {
@@ -273,6 +283,54 @@ namespace AgriApi_v2.Controllers
                         StaticFunc._IsWateredTemperatureR1 = false;
                     }
 
+                    if (findentity1R1Pressure)
+                    {
+                        var PressureDownLevelR1 = _context.Measurements
+                              .Where(s => s.Relay == getRelayR1)
+                      .SingleOrDefault(s => s.Name == "Pressure").DownLevel;
+
+                        var PressureUpLevelR1 = _context.Measurements
+                              .Where(s => s.Relay == getRelayR1)
+                            .SingleOrDefault(s => s.Name == "Pressure").UpLevel;
+
+                        if (agriData.Pressure < PressureDownLevelR1)
+                        {
+                            StaticFunc._IsWateredPressureR1 = false;
+                        }
+                        if (agriData.Pressure > PressureUpLevelR1)
+                        {
+                            StaticFunc._IsWateredPressureR1 = true;
+                        }
+                    }
+                    else
+                    {
+                        StaticFunc._IsWateredPressureR1 = false;
+                    }
+
+                    if (findentity1R1Humidity)
+                    {
+                        var HumidityDownLevelR1 = _context.Measurements
+                              .Where(s => s.Relay == getRelayR1)
+                      .SingleOrDefault(s => s.Name == "Humidity").DownLevel;
+
+                        var HumidityUpLevelR1 = _context.Measurements
+                              .Where(s => s.Relay == getRelayR1)
+                            .SingleOrDefault(s => s.Name == "Humidity").UpLevel;
+
+                        if (agriData.Humidity < HumidityDownLevelR1)
+                        {
+                            StaticFunc._IsWateredHumidityR1 = false;
+                        }
+                        if (agriData.Humidity > HumidityUpLevelR1)
+                        {
+                            StaticFunc._IsWateredHumidityR1 = true;
+                        }
+                    }
+                    else
+                    {
+                        StaticFunc._IsWateredHumidityR1 = false;
+                    }
+
                     //if (agriData.SoilMoisture < SoilMoistureDownLevel && agriData.Lum < LumDownLevel && StaticFunc._firstTime==1)
                     //{
                     //    StaticFunc._IsWatered = false;
@@ -295,7 +353,17 @@ namespace AgriApi_v2.Controllers
                     //    agriData.IsRelayOnNotification = StaticFunc._IsRelayNotificaton = false;
                     //}
 
-                    if (StaticFunc._IsWateredSoilMoistureR1 == false && StaticFunc._IsWateredLumR1 == false && StaticFunc._IsWateredTemperatureR1 == false)
+                    Console.WriteLine("_IsWateredSoilMoistureR1=" + StaticFunc._IsWateredSoilMoistureR1);
+                    Console.WriteLine("_IsWateredLumR1=" + StaticFunc._IsWateredLumR1);
+                    Console.WriteLine("_IsWateredTemperatureR1=" + StaticFunc._IsWateredTemperatureR1);
+                    Console.WriteLine("_IsWateredPressureR1=" + StaticFunc._IsWateredPressureR1);
+                    Console.WriteLine("_IsWateredHumidityR1=" + StaticFunc._IsWateredHumidityR1);
+
+                    if (StaticFunc._IsWateredSoilMoistureR1 == false 
+                        && StaticFunc._IsWateredLumR1 == false 
+                        && StaticFunc._IsWateredTemperatureR1 == false
+                        && StaticFunc._IsWateredPressureR1 == false
+                       && StaticFunc._IsWateredHumidityR1 == false)
                     {
                         Pi.Gpio[pinrelayR1].Write(false); // Relay On
                         System.Threading.Thread.Sleep(delay);

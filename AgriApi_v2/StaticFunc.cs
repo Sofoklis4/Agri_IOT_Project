@@ -10,6 +10,8 @@ namespace AgriApi_v2
         public static bool _IsWateredSoilMoistureR1 = true;
         public static bool _IsWateredLumR1 = true;
         public static bool _IsWateredTemperatureR1 = true;
+        public static bool _IsWateredPressureR1 = true;
+        public static bool _IsWateredHumidityR1 = true;
 
         public static bool _IsWateredSoilMoistureR2 = true;
         public static bool _IsWateredLumR2 = true;

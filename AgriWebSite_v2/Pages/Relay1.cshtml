@@ -45,6 +45,26 @@
         <input class="form-control col-sm-2" type="text" asp-for="TemperatureUpLimit">
     </div>
 
+    <div class="form-group row">
+        <label class="col-sm-3" for="">Pressure</label>
+        <input class="form-control col-sm-2" type="checkbox" asp-for="PressureIsChecked">
+        <label class="col-sm-3" for="PressureDownLimit">Κάτω Όριο:</label>
+        <input class="form-control col-sm-2" type="text" asp-for="PressureDownLimit">
+        <label class="col-sm-3" for="PressureUpLimit">Άνω Όριο:</label>
+        <input class="form-control col-sm-2" type="text" asp-for="PressureUpLimit">
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-3" for="">Humidity</label>
+        <input class="form-control col-sm-2" type="checkbox" asp-for="HumidityIsChecked">
+        <label class="col-sm-3" for="HumidityDownLimit">Κάτω Όριο:</label>
+        <input class="form-control col-sm-2" type="text" asp-for="HumidityDownLimit">
+        <label class="col-sm-3" for="HumidityUpLimit">Άνω Όριο:</label>
+        <input class="form-control col-sm-2" type="text" asp-for="HumidityUpLimit">
+    </div>
+
+
+
     @*<div class="form-group row">
             <select class="form-control col-sm-2" name="RelayChannel">
                 <option value="">Select a Relay</option>
