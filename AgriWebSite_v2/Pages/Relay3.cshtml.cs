@@ -41,6 +41,20 @@ namespace AgriWebSite_v2.Pages
         [BindProperty]
         public bool TemperatureIsChecked { get; set; }
 
+        [BindProperty]
+        public float PressureUpLimit { get; set; }
+        [BindProperty]
+        public float PressureDownLimit { get; set; }
+        [BindProperty]
+        public bool PressureIsChecked { get; set; }
+
+        [BindProperty]
+        public float HumidityUpLimit { get; set; }
+        [BindProperty]
+        public float HumidityDownLimit { get; set; }
+        [BindProperty]
+        public bool HumidityIsChecked { get; set; }
+
 
         public void OnGet()
         {
@@ -66,6 +80,45 @@ namespace AgriWebSite_v2.Pages
                 .FirstOrDefault(item => item.Name == "Temperature");
             TemperatureDownLimit = entity3.DownLevel;
             TemperatureUpLimit = entity3.UpLevel;
+
+            var entity4 = _context.Measurements
+  .Where(s => s.Relay == getRelay)
+ .FirstOrDefault(item => item.Name == "Pressure");
+            PressureDownLimit = entity4.DownLevel;
+            PressureUpLimit = entity4.UpLevel;
+
+            var entity5 = _context.Measurements
+     .Where(s => s.Relay == getRelay)
+    .FirstOrDefault(item => item.Name == "Humidity");
+            HumidityDownLimit = entity5.DownLevel;
+            HumidityUpLimit = entity5.UpLevel;
+
+            var selectedMeas = _context.RulesForRelays.Where(s => s.Relay == getRelay).ToList();
+
+            if (selectedMeas.Any(s => s.Measurement.Name == "SoilMoisture"))
+            {
+                SoilMoistureIsChecked = true;
+            }
+
+            if (selectedMeas.Any(s => s.Measurement.Name == "Lum"))
+            {
+                LumIsChecked = true;
+            }
+
+            if (selectedMeas.Any(s => s.Measurement.Name == "Temperature"))
+            {
+                TemperatureIsChecked = true;
+            }
+
+            if (selectedMeas.Any(s => s.Measurement.Name == "Pressure"))
+            {
+                PressureIsChecked = true;
+            }
+
+            if (selectedMeas.Any(s =>s.Measurement.Name=="Humidity"))
+            {
+                HumidityIsChecked = true;
+            }
         }
 
         public void OnPost()
@@ -75,7 +128,11 @@ namespace AgriWebSite_v2.Pages
             var getRelay = _context.Relays
             .Where(s => s.RelayName == "Relay3").FirstOrDefault();
 
-            if (SoilMoistureIsChecked == true || LumIsChecked == true || TemperatureIsChecked == true)
+            if (SoilMoistureIsChecked == true
+                    || LumIsChecked == true
+                    || TemperatureIsChecked == true
+                   || PressureIsChecked == true
+                    || HumidityIsChecked == true)
             {
                 var entity3 = _context.RulesForRelays.
                          Where(s => s.Relay.RelayName == "Relay3")
@@ -167,6 +224,64 @@ namespace AgriWebSite_v2.Pages
                     .Where(s => s.Relay == getRelay)
                     .Where(s => s.Name == "Temperature").FirstOrDefault();
                
+                var rel = new RulesForRelay
+                {
+                    Measurement = getMeasurement,
+                    Relay = getRelay
+                };
+                _context.RulesForRelays.Add(rel);
+                _context.SaveChanges();
+
+            }
+
+            if (PressureIsChecked)
+            {
+                var entityPressure1 = _context.Measurements
+                     .Where(s => s.Relay == getRelay)
+                    .FirstOrDefault(item => item.Name == "Pressure");
+                entityPressure1.DownLevel = PressureDownLimit;
+                entityPressure1.UpLevel = PressureUpLimit;
+                _context.Measurements.Update(entityPressure1);
+                _context.SaveChanges();
+
+                PressureDownLimit = entityPressure1.DownLevel;
+                PressureUpLimit = entityPressure1.UpLevel;
+
+
+
+                var getMeasurement = _context.Measurements
+                       .Where(s => s.Relay == getRelay)
+                    .Where(s => s.Name == "Pressure").FirstOrDefault();
+
+                var rel = new RulesForRelay
+                {
+                    Measurement = getMeasurement,
+                    Relay = getRelay
+                };
+                _context.RulesForRelays.Add(rel);
+                _context.SaveChanges();
+
+            }
+
+            if (HumidityIsChecked)
+            {
+                var entityHumidity1 = _context.Measurements
+                     .Where(s => s.Relay == getRelay)
+                    .FirstOrDefault(item => item.Name == "Humidity");
+                entityHumidity1.DownLevel = HumidityDownLimit;
+                entityHumidity1.UpLevel = HumidityUpLimit;
+                _context.Measurements.Update(entityHumidity1);
+                _context.SaveChanges();
+
+                HumidityDownLimit = entityHumidity1.DownLevel;
+                HumidityUpLimit = entityHumidity1.UpLevel;
+
+
+
+                var getMeasurement = _context.Measurements
+                       .Where(s => s.Relay == getRelay)
+                    .Where(s => s.Name == "Humidity").FirstOrDefault();
+
                 var rel = new RulesForRelay
                 {
                     Measurement = getMeasurement,

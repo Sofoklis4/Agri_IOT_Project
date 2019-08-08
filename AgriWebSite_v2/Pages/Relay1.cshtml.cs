@@ -92,6 +92,33 @@ namespace AgriWebSite_v2.Pages
             HumidityDownLimit = entity5.DownLevel;
             HumidityUpLimit = entity5.UpLevel;
 
+            var selectedMeas = _context.RulesForRelays.Where(s => s.Relay == getRelay).ToList();
+
+            if (selectedMeas.Any(s => s.Measurement.Name == "SoilMoisture"))
+            {
+                SoilMoistureIsChecked = true;
+            }
+
+            if (selectedMeas.Any(s => s.Measurement.Name == "Lum"))
+            {
+                LumIsChecked = true;
+            }
+
+            if (selectedMeas.Any(s => s.Measurement.Name == "Temperature"))
+            {
+                TemperatureIsChecked = true;
+            }
+
+            if (selectedMeas.Any(s => s.Measurement.Name == "Pressure"))
+            {
+                PressureIsChecked = true;
+            }
+
+            if (selectedMeas.Any(s => s.Measurement.Name == "Humidity"))
+            {
+                HumidityIsChecked = true;
+            }
+
         }
 
         public void OnPost()
