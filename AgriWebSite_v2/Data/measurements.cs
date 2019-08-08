@@ -16,5 +16,7 @@ namespace AgriWebSite_v2.Data
         public float DownLevel { get; set; }
 
         public Relay Relay { get; set; }
+
+        public Raspberries Raspberry { get; set; }
     }
 }

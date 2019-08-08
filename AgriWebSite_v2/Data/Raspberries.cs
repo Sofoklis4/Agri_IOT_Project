@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 
 namespace AgriWebSite_v2.Data
 {
-    public class Relay
+    public class Raspberries
     {
         public int Id { get; set; }
 
-        public string RelayName { get; set; }
-
-        public Raspberries Raspberry { get; set; }
+        public string Name { get; set; }
     }
 }

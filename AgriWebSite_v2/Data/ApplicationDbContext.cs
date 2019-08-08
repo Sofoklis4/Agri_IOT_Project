@@ -19,5 +19,7 @@ namespace AgriWebSite_v2.Data
 
         public DbSet<Relay> Relays { get; set; }
         public DbSet<RulesForRelay> RulesForRelays { get; set; }
+
+        public DbSet<Raspberries> Raspberries { get; set; }
     }
 }
