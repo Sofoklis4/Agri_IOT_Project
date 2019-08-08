@@ -61,6 +61,7 @@ namespace AgriWebSite_v2.Pages
             StatusMessageShow = 0;
             var getRelay = _context.Relays
  .Where(s => s.RelayName == "Relay1").FirstOrDefault();
+
             var entity = _context.Measurements
                  .Where(s => s.Relay == getRelay)
                 .FirstOrDefault(item => item.Name == "SoilMoisture");
